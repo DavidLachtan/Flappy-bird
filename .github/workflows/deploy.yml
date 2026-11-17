@@ -30,6 +30,73 @@ jobs:
         run: |
           python -m pygbag --build --app_name "Flappy Bird" main.py
 
+      - name: Apply responsive fullscreen page styling
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          page = Path("build/web/index.html")
+          html = page.read_text(encoding="utf-8")
+
+          html = html.replace(
+              'platform.document.body.style.background = "#7f7f7f"',
+              'platform.document.body.style.background = "#69beeb"'
+          )
+
+          css = """
+          <style id="flappy-mobile-fullscreen">
+            html, body {
+              width: 100% !important;
+              height: 100% !important;
+              min-height: 100% !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              overflow: hidden !important;
+              background: #69beeb !important;
+            }
+            body {
+              position: fixed !important;
+              inset: 0 !important;
+              width: 100vw !important;
+              height: 100vh !important;
+              height: 100dvh !important;
+              font-family: Arial, sans-serif;
+            }
+            canvas.emscripten {
+              display: block !important;
+              position: fixed !important;
+              inset: 0 !important;
+              width: 100vw !important;
+              height: 100vh !important;
+              height: 100dvh !important;
+              max-width: 100% !important;
+              max-height: 100% !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              border: 0 !important;
+              background: #69beeb !important;
+              touch-action: none;
+            }
+            #infobox {
+              position: fixed !important;
+              left: 50% !important;
+              top: 50% !important;
+              transform: translate(-50%, -50%) !important;
+              background: rgba(20, 30, 40, .88) !important;
+              color: #fff !important;
+              padding: 12px 24px !important;
+              border-radius: 8px;
+              z-index: 999999;
+            }
+          </style>
+          """
+          if 'id="flappy-mobile-fullscreen"' not in html:
+              html = html.replace("</head>", css + "\\n</head>")
+
+          page.write_text(html, encoding="utf-8")
+          print(f"Applied mobile styling to {page}")
+          PY
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
