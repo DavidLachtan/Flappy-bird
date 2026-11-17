@@ -44,13 +44,15 @@ jobs:
           )
 
           # This game has no audio, so it must not wait for a browser media gesture.
-          import re
-          html = re.sub(
-              r"    # test/wait user media interaction\\s+if not platform\\.window\\.MM\\.UME:.*?(?=    # start async top level machinery)",
-              "",
-              html,
-              flags=re.DOTALL,
-          )
+          start_marker = "    # test/wait user media interaction"
+          end_marker = "    # start async top level machinery"
+          start = html.find(start_marker)
+          end = html.find(end_marker, start)
+          if start != -1 and end != -1:
+              html = html[:start] + html[end:]
+          else:
+              raise RuntimeError("Could not remove Pygbag's media-click startup gate")
+
           html = html.replace("ume_block : 1", "ume_block : 0")
 
           css = """
