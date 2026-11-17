@@ -43,6 +43,16 @@ jobs:
               'platform.document.body.style.background = "#69beeb"'
           )
 
+          # This game has no audio, so it must not wait for a browser media gesture.
+          import re
+          html = re.sub(
+              r"    # test/wait user media interaction\\s+if not platform\\.window\\.MM\\.UME:.*?(?=    # start async top level machinery)",
+              "",
+              html,
+              flags=re.DOTALL,
+          )
+          html = html.replace("ume_block : 1", "ume_block : 0")
+
           css = """
           <style id="flappy-mobile-fullscreen">
             html, body {
