@@ -205,15 +205,12 @@ function show_infobox() {
         }
 
         #infobox {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(20, 30, 40, 0.88);
-            color: white;
+            position: fixed; /* center relative to viewport */
+            background: green;
+            color: blue;
             font-weight: bold;
             padding: 12px 24px;
-            border-radius: 8px;
+ /*           display: none; */
             z-index: 999999;
         }
         div.emscripten { text-align: center; }
@@ -223,37 +220,27 @@ function show_infobox() {
         /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
         /* average size of droid screen 470dp x 320dp  */
         canvas.emscripten {
-            display: block;
-            border: 0;
-            background-color: #69beeb;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
-            z-index: 5;
-            padding: 0;
-            margin: 0;
-            position: fixed;
-            inset: 0;
-            touch-action: none;
-        }
-
-        html, body {
+            border: 0px none;
+            background-color: transparent;
             width: 100%;
             height: 100%;
-            min-height: 100%;
-            margin: 0;
+            z-index: 5;
+
             padding: 0;
-            overflow: hidden;
-            background: #69beeb;
+            margin: 0 auto;
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
 
         body {
-            position: fixed;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
             font-family: arial;
+            margin: 0;
+            padding: none;
+            background-color:powderblue;
         }
 
         .topright{
@@ -299,7 +286,53 @@ function show_infobox() {
 
     <script src="https://pygame-web.github.io/cdn/0.9.3//browserfs.min.js"></script>
 
-</head>
+
+<style id="flappy-mobile-fullscreen">
+  html, body {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #69beeb !important;
+  }
+  body {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    font-family: Arial, sans-serif;
+  }
+  canvas.emscripten {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: #69beeb !important;
+    touch-action: none;
+  }
+  #infobox {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: rgba(20, 30, 40, .88) !important;
+    color: #fff !important;
+    padding: 12px 24px !important;
+    border-radius: 8px;
+    z-index: 999999;
+  }
+</style>
+\n</head>
 
 <body>
 
