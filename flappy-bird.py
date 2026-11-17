@@ -244,7 +244,7 @@ class Game:
                 json.dump(data, file, indent=4)
 
         except OSError as error:
-            print(f"Chyba při ukládání rekordu: {error}")
+            print(f"error while saving highscore: {error}")
 
     def reset(self):
         self.bird = Bird()
@@ -402,7 +402,7 @@ class Game:
         )
 
         self.draw_text_center(
-            "Mezerník = start / skok", self.font_mid, 260
+            "Space = start / jump", self.font_mid, 260
         )
 
         self.draw_text_right(
@@ -410,7 +410,7 @@ class Game:
         )
 
         self.draw_text_center(
-            "ESC = Konec", self.font_small, 330
+            "ESC = exit", self.font_small, 330
         )
 
     def draw_game_over_screen(self):
@@ -422,26 +422,26 @@ class Game:
         self.screen.blit(overlay, (0, 0))
 
         self.draw_text_center(
-            "Konec hry!", self.font_big, 190
+            "Game Over!", self.font_big, 190
         )
 
         self.draw_text_center(
-            f"Skóre: {self.score}", self.font_mid, 260
+            f"Score: {self.score}", self.font_mid, 260
         )
 
         self.draw_text_center(
-            f"Nejlepší skóre: {self.best_score}",
+            f"High Score: {self.best_score}",
             self.font_mid, 305
         )
 
         if self.restart_timer <= 0:
             self.draw_text_center(
-                "Mezerník = Restart",
+                "Space = Restart",
                 self.font_small, 365
             )
 
         self.draw_text_center(
-            "ESC = Konec", self.font_small, 405
+            "ESC = exit", self.font_small, 405
         )
 
     def draw(self):
