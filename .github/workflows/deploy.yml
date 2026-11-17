@@ -91,7 +91,7 @@ jobs:
           </style>
           """
           if 'id="flappy-mobile-fullscreen"' not in html:
-              html = html.replace("</head>", css + "\\n</head>")
+              html = html.replace("</head>", css + "\n</head>")
 
           page.write_text(html, encoding="utf-8")
           print(f"Applied mobile styling to {page}")
