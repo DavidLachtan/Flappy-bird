@@ -196,7 +196,7 @@ class Game:
 
         self.running = True
         self.best_score = self.load_highscore()
-        self.restart_timer = 0
+        self.restart_at = 0
 
         self.state = GameState.START
         self.reset()
@@ -254,7 +254,7 @@ class Game:
             self.save_highscore()
 
         self.state = GameState.GAME_OVER
-        self.restart_timer = RESTART_DELAY
+        self.restart_at = pygame.time.get_ticks() + int(RESTART_DELAY * 1000)
 
     def spawn_pipe(self):
         self.pipes.append(PipePair(WIDTH + 40))
@@ -267,7 +267,7 @@ class Game:
             self.bird.flap()
 
         elif self.state == GameState.GAME_OVER:
-            if self.restart_timer <= 0:
+            if pygame.time.get_ticks() >= self.restart_at:
                 self.start_game()
 
     def handle_events(self):
@@ -290,7 +290,6 @@ class Game:
 
     def update(self, dt):
         if self.state == GameState.GAME_OVER:
-            self.restart_timer = max(0, self.restart_timer - dt)
             return
 
         if self.state != GameState.PLAYING:
@@ -422,7 +421,7 @@ class Game:
             305
         )
 
-        if self.restart_timer <= 0:
+        if pygame.time.get_ticks() >= self.restart_at:
             self.draw_text_center(
                 "Space / Click = Restart",
                 self.font_small,
@@ -453,7 +452,7 @@ class Game:
 
     async def run(self):
         while self.running:
-            dt = min(self.clock.tick(FPS) / 1000, 0.05)
+            dt = min(self.clock.tick(FPS) / 800, 0.05)
 
             self.handle_events()
             self.update(dt)
