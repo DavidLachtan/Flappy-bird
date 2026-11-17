@@ -59,7 +59,7 @@
 **1. Clone the repository**
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/flappy-bird.git
+git clone https://github.com/DavidLachtan/flappy-bird.git
 ```
 
 **2. Enter the project directory**
