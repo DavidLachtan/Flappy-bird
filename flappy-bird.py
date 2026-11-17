@@ -1,3 +1,4 @@
+
 import math
 import random
 import sys
@@ -31,52 +32,12 @@ FLAP_FORCE = -470
 
 RESTART_DELAY = 0.7
 HIGHSCORE_FILE = "highscore.json"
-SOUNDS_DIR = "sounds"
 
 
 class GameState(Enum):
     START = 1
     PLAYING = 2
     GAME_OVER = 3
-
-
-class SoundManager:
-    def __init__(self):
-        self.enabled = False
-        self.flap = None
-        self.score = None
-        self.hit = None
-
-        try:
-            if not pygame.mixer.get_init():
-                pygame.mixer.init()
-
-            self.enabled = True
-
-            self.flap = self.load_sound("flap.wav")
-            self.score = self.load_sound("score.wav")
-            self.hit = self.load_sound("hit.wav")
-
-        except pygame.error:
-            self.enabled = False
-
-    def load_sound(self, filename):
-        path = os.path.join(SOUNDS_DIR, filename)
-
-        if not os.path.isfile(path):
-            return None
-
-        try:
-            return pygame.mixer.Sound(path)
-        except pygame.error:
-            return None
-
-    def play(self, sound):
-        if self.enabled and sound:
-            try:
-                sound.play()
-            except pygame.error:
-                pass
 
 
 class Bird:
@@ -236,8 +197,6 @@ class Game:
             "arial", 24
         )
 
-        self.sounds = SoundManager()
-
         self.best_score = self.load_highscore()
         self.restart_timer = 0
 
@@ -311,8 +270,6 @@ class Game:
         self.state = GameState.GAME_OVER
         self.restart_timer = RESTART_DELAY
 
-        self.sounds.play(self.sounds.hit)
-
     def spawn_pipe(self):
         self.pipes.append(PipePair(WIDTH + 40))
 
@@ -335,7 +292,6 @@ class Game:
 
                     elif self.state == GameState.PLAYING:
                         self.bird.flap()
-                        self.sounds.play(self.sounds.flap)
 
                     elif (
                         self.state == GameState.GAME_OVER
@@ -367,7 +323,6 @@ class Game:
             if not pipe.passed and pipe.x + PIPE_WIDTH < self.bird.x:
                 pipe.passed = True
                 self.score += 1
-                self.sounds.play(self.sounds.score)
 
         self.pipes = [
             pipe for pipe in self.pipes
