@@ -1,3 +1,4 @@
+
 import math
 import random
 import sys
@@ -31,6 +32,7 @@ FLAP_FORCE = -470
 
 RESTART_DELAY = 0.7
 HIGHSCORE_FILE = "highscore.json"
+SOUNDS_DIR = "sounds"
 
 
 class GameState(Enum):
@@ -42,13 +44,33 @@ class GameState(Enum):
 class SoundManager:
     def __init__(self):
         self.enabled = False
-        self.flap = self.score = self.hit = None
+        self.flap = None
+        self.score = None
+        self.hit = None
 
         try:
-            pygame.mixer.init()
+            if not pygame.mixer.get_init():
+                pygame.mixer.init()
+
             self.enabled = True
+
+            self.flap = self.load_sound("flap.wav")
+            self.score = self.load_sound("score.wav")
+            self.hit = self.load_sound("hit.wav")
+
         except pygame.error:
-            return
+            self.enabled = False
+
+    def load_sound(self, filename):
+        path = os.path.join(SOUNDS_DIR, filename)
+
+        if not os.path.isfile(path):
+            return None
+
+        try:
+            return pygame.mixer.Sound(path)
+        except pygame.error:
+            return None
 
     def play(self, sound):
         if self.enabled and sound:
@@ -225,26 +247,48 @@ class Game:
 
     def load_highscore(self):
         try:
-            if os.path.exists(HIGHSCORE_FILE):
-                with open(HIGHSCORE_FILE, "r", encoding="utf-8") as file:
-                    data = json.load(file)
-                    return max(0, int(data.get("highscore", 0)))
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            pass
+            if not os.path.exists(HIGHSCORE_FILE):
+                return 0
 
-        return 0
+            with open(HIGHSCORE_FILE, "r", encoding="utf-8") as file:
+                data = json.load(file)
+
+            if not isinstance(data, dict):
+                return 0
+
+            return max(0, int(data.get("highscore", 0)))
+
+        except (
+            OSError,
+            ValueError,
+            TypeError,
+            AttributeError,
+            OverflowError,
+            json.JSONDecodeError
+        ):
+            return 0
 
     def save_highscore(self):
-        try:
-            data = {
-                "highscore": self.best_score
-            }
+        data = {
+            "highscore": self.best_score
+        }
 
-            with open(HIGHSCORE_FILE, "w", encoding="utf-8") as file:
+        temp_file = HIGHSCORE_FILE + ".tmp"
+
+        try:
+            with open(temp_file, "w", encoding="utf-8") as file:
                 json.dump(data, file, indent=4)
 
+            os.replace(temp_file, HIGHSCORE_FILE)
+
         except OSError as error:
-            print(f"error while saving highscore: {error}")
+            print(f"Error while saving highscore: {error}")
+
+            try:
+                if os.path.exists(temp_file):
+                    os.remove(temp_file)
+            except OSError:
+                pass
 
     def reset(self):
         self.bird = Bird()
