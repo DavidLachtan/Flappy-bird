@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# 🐦 Flappy Bird
+# Flappy Bird
 
 ### A simple, colorful Flappy Bird game made with Python and Pygame.
 
@@ -14,9 +14,8 @@
 
 ---
 
-## 🎮 Screenshots
+## Screenshots
 
-<!-- Add your screenshots to a folder named screenshots -->
 
 <div align="center">
 
@@ -32,7 +31,7 @@
 
 ---
 
-## ✨ Features
+## Features
 
 - 🐤 Custom-drawn animated bird
 - 🟢 Randomly generated pipes
@@ -43,19 +42,19 @@
 - 🎮 Simple keyboard controls
 - ⚡ Lightweight and optimized gameplay
 
-## 🕹️ Controls
+## Controls
 
 | Key | Action |
 |---|---|
 | `SPACE` | Start / Fly / Restart |
 | `ESC` | Quit the game |
 
-## 📦 Requirements
+## Requirements
 
 - Python 3.11–3.13 recommended
 - Pygame 2.6.1 or newer
 
-## 🚀 Installation
+## Installation
 
 **1. Clone the repository**
 
@@ -81,7 +80,7 @@ py -m pip install -r requirements.txt
 py flappy-bird.py
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 flappy-bird/
@@ -98,7 +97,7 @@ flappy-bird/
 
 `highscore.json` is automatically created when a new high score is achieved.
 
-## 🏆 High Score System
+## High Score System
 
 Your best score is automatically saved locally.
 
@@ -112,14 +111,14 @@ Example `highscore.json`:
 
 Your record remains saved even after closing the game.
 
-## 🛠️ Built With
+## Built With
 
 - [Python](https://www.python.org/) – Programming language
 - [Pygame](https://www.pygame.org/) – Game development library
 
-## 👨‍💻 Author
+## Author
 
-**David**
+**David_Lachtan**
 
 Made with Python and Pygame.
 
@@ -127,7 +126,7 @@ Made with Python and Pygame.
 
 <div align="center">
 
-### ⭐ Enjoy the game!
+### Enjoy the game!
 
 **If you like this project, consider giving it a star on GitHub.**
 
